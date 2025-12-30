@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://est5xs2v26ep"]
+
+[ext_resource type="Texture2D" uid="uid://bu5gcwh5sbo37" path="res://test srpite.png" id="1_1x2h4"]
+[ext_resource type="Script" uid="uid://c5qnmg5myowe2" path="res://PlayerVisual3D.cs" id="1_gw4s5"]
+[ext_resource type="PackedScene" uid="uid://hs63ho8artal" path="res://2d logic.tscn" id="3_6aenx"]
+
+[sub_resource type="Environment" id="Environment_6aenx"]
+background_mode = 2
+
+[node name="PlayerVisual" type="Node3D" node_paths=PackedStringArray("LogicNode")]
+script = ExtResource("1_gw4s5")
+LogicNode = NodePath("LogicWorld/CharacterBody2D")
+ScaleFactor = 1.0
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 2
+texture = ExtResource("1_1x2h4")
+
+[node name="LogicWorld" parent="." instance=ExtResource("3_6aenx")]
+visible = false
+
+[node name="CharacterBody2D" parent="LogicWorld" index="1"]
+position = Vector2(0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.0088372)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90317225, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="DirectionalLight3D"]
+environment = SubResource("Environment_6aenx")
+
+[editable path="LogicWorld"]

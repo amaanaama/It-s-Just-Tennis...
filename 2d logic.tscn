@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://hs63ho8artal"]
+
+[ext_resource type="Script" uid="uid://brsow3g3jbmy5" path="res://Player.cs" id="1_q0cc7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4flbx"]
+size = Vector2(200, 3005.795)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
+size = Vector2(1500, 200)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i3pqv"]
+radius = 50.0
+
+[node name="LogicWorld" type="Node2D"]
+position = Vector2(960, 540)
+scale = Vector2(0.3, 0.3)
+
+[node name="walls" type="StaticBody2D" parent="."]
+
+[node name="left boundary" type="CollisionShape2D" parent="walls"]
+position = Vector2(-550, 0)
+shape = SubResource("RectangleShape2D_4flbx")
+
+[node name="right boundary" type="CollisionShape2D" parent="walls"]
+position = Vector2(550, 0)
+shape = SubResource("RectangleShape2D_4flbx")
+
+[node name="top boundary" type="CollisionShape2D" parent="walls"]
+position = Vector2(0, -1200)
+shape = SubResource("RectangleShape2D_onrkg")
+
+[node name="top boundary2" type="CollisionShape2D" parent="walls"]
+position = Vector2(0, 1200)
+shape = SubResource("RectangleShape2D_onrkg")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 2
+script = ExtResource("1_q0cc7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CircleShape2D_i3pqv")
+
+[node name="ColorRect" type="ColorRect" parent="CharacterBody2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2

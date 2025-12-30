@@ -1,41 +1,31 @@
 using Godot;
 using System;
 
-public partial class Player : Area2D
+
+public partial class Player : CharacterBody2D
 {
-	[Export]
-	public int Speed {get; set;} = 40;
-	public Vector2 ScreenSize;
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		ScreenSize = GetViewportRect().Size;
-	}
+    [Export]
+    public int Speed { get; set; } = 1000; 
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		var velocity = Vector2.Zero;
-		if (Input.IsActionPressed("move_right")){
-			velocity.X += 1;
-		}
-		if (Input.IsActionPressed("move_left")){
-			velocity.X -= 1;
-		}
+   public override void _PhysicsProcess(double delta)
+{
+    Vector2 inputVelocity = Vector2.Zero;
 
-		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		if (velocity.Length() > 0){
-			velocity = velocity.Normalized() * Speed;
-			animatedSprite2D.Play();
-		}
-		else{
-			animatedSprite2D.Stop();
-		}
+    if (Input.IsActionPressed("right")) inputVelocity.X += 1;
+    if (Input.IsActionPressed("left"))  inputVelocity.X -= 1;
+    if (Input.IsActionPressed("down"))  inputVelocity.Y += 1;
+    if (Input.IsActionPressed("up"))    inputVelocity.Y -= 1;
 
-		Position += velocity * (float)delta;
-		Position = new Vector2(
-    		x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
-    		y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
-		);
-	}
+    if (inputVelocity != Vector2.Zero)
+    {
+        GD.Print("Input detected! Direction: ", inputVelocity);
+        Velocity = inputVelocity.Normalized() * Speed;
+    }
+    else
+    {
+        Velocity = Vector2.Zero;
+    }
+
+    MoveAndSlide();
+}
 }
