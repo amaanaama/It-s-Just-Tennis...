@@ -20,13 +20,14 @@ public partial class PlayerVisual3D : Node3D
 
         Vector2 logicPos = LogicNode.GlobalPosition;
 
-        Vector3 new3DPosition = new Vector3(
-            logicPos.X * ScaleFactor, 
-            0.05f, 
-            logicPos.Y * ScaleFactor
-        );
+        float centeredX = (logicPos.X - 960) * ScaleFactor;
+        float centeredZ = (logicPos.Y - 540) * ScaleFactor;
 
-        GlobalPosition = new3DPosition;
+        this.GlobalPosition = new Vector3(
+            centeredX, 
+            0.05f, 
+            centeredZ
+        );
 
         GD.Print("LINK ACTIVE: Moving to " + logicPos);
     }
