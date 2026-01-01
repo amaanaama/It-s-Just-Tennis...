@@ -1,20 +1,25 @@
 using Godot;
 using System;
 
-
-public partial class Player : CharacterBody2D
+public partial class PlayerLogic : CharacterBody2D
 {
     [Export]
-    public int Speed { get; set; } = 400; 
+    public float Speed { get; set; } = 200.0f; 
+    public Vector2 FieldSize = new Vector2(300, 200);
+    public float Altitude = 0.0f;
 
-   public override void _PhysicsProcess(double delta)
-{
+   public override void _PhysicsProcess(double delta){
     Vector2 inputVelocity = Vector2.Zero;
 
     if (Input.IsActionPressed("right")) inputVelocity.X += 1;
     if (Input.IsActionPressed("left"))  inputVelocity.X -= 1;
     if (Input.IsActionPressed("down"))  inputVelocity.Y += 1;
     if (Input.IsActionPressed("up"))    inputVelocity.Y -= 1;
+
+    if (inputVelocity.Length() > 0){
+        inputVelocity = inputVelocity.Normalized();
+    }
+    Velocity = inputVelocity * Speed;
 
     if (inputVelocity != Vector2.Zero)
     {
@@ -27,5 +32,10 @@ public partial class Player : CharacterBody2D
     }
 
     MoveAndSlide();
+
+    Vector2 pos = GlobalPosition;
+    pos.X = Mathf.Clamp(pos.X, 0, FieldSize.X);
+    pos.Y = Mathf.Clamp(pos.Y, 0, FieldSize.Y);
+    GlobalPosition = pos;
 }
 }
