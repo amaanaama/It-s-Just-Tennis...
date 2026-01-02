@@ -30,6 +30,10 @@ public partial class PlayerVisuals : Node2D
 		float xPixelScale = 514f/ Brain.FieldSize.X;
 
 		float screenX = screenCenterX + (logicXCentered * xPixelScale * currentSqueeze);
+
+		float shadowScaleFactor = Mathf.Remap(Brain.Altitude, 0, 60, 1.0f, 0.6f);
+
+		ShadowSprite.Scale = new Vector2(shadowScaleFactor, shadowScaleFactor);
 		
 		this.GlobalPosition = new Vector2(screenX, screenY);
 		CharacterSprite.Position = new Vector2(0, -Brain.Altitude);

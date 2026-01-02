@@ -41,10 +41,9 @@ CharacterSprite = NodePath("CharacterSprite")
 ShadowSprite = NodePath("ShadowSprite")
 
 [node name="ShadowSprite" type="Sprite2D" parent="Visual World/PlayerVisuals"]
+modulate = Color(1, 1, 1, 0.45882353)
 texture = ExtResource("4_3dxm6")
-centered = false
-offset = Vector2(0, 28.54)
+offset = Vector2(0, 16)
 
 [node name="CharacterSprite" type="Sprite2D" parent="Visual World/PlayerVisuals"]
 texture = ExtResource("5_lgr22")
-centered = false
