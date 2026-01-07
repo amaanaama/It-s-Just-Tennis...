@@ -3,41 +3,54 @@ using System;
 
 public partial class Arena : Node2D
 {
-    private PackedScene _playerScene;
+    // The blueprint slot
+    [Export] public PackedScene VisualsTemplate;
+    [Export] public Texture2D P1Skin; 
+    [Export] public Texture2D P2Skin;
 
     public override void _Ready()
     {
-        // 1. Load the Player Template
-        _playerScene = GD.Load<PackedScene>("res://Scenes/PlayerLogic.tscn");
+        GD.Print("--- Spawner Started ---");
+        var logicNodeP1 = GetNode<PlayerLogic>("Logic World/PlayerLogic1");
+        var logicNodeP2 = GetNode<PlayerLogic>("Logic World/PlayerLogic2");
+        
+        var container = GetNode<Node2D>("Visual World");
 
-        // 2. Get the GameManager
-        var gameManager = GetNode<GameManager>("/root/GameManager");
-
-        // 3. Spawn Player 1 (Left Side)
-        // x: 80 (inner left), y: 180 (vertical center)
-        SpawnPlayer(1, new Vector2(80, 180)); 
-
-        // 4. Handle Player 2 / AI
-        if (gameManager.currentMode == GameManager.GameMode.LocalMP)
-        {
-            // Spawn Player 2 (Right Side)
-            // x: 560 (inner right), y: 180 (vertical center)
-            SpawnPlayer(2, new Vector2(560, 180));
-        }
-        else if (gameManager.currentMode == GameManager.GameMode.Rougelike)
-        {
-            GD.Print("Roguelite Mode: AI logic will go here!");
-        }
+        SpawnCharacter(logicNodeP1, container, "Dynamic_Player1", P1Skin);
+        SpawnCharacter(logicNodeP2, container, "Dynamic_Player2", P2Skin);
     }
 
-    private void SpawnPlayer(int id, Vector2 spawnPosition)
+    private void SpawnCharacter(PlayerLogic brain, Node parent, string name, Texture2D skin)
     {
-        var playerInstance = _playerScene.Instantiate<PlayerLogic>();
-        AddChild(playerInstance);
+        // Safety Check
+        if (VisualsTemplate == null)
+        {
+            GD.PrintErr("CRITICAL ERROR: VisualsTemplate is empty! Drag your .tscn file into the Inspector.");
+            return;
+        }
 
-        playerInstance.PlayerID = id;
-        playerInstance.GlobalPosition = spawnPosition;
+        // A. Create the copy
+        // We cast it to 'PlayerVisuals' so we can access the .Brain variable
+        PlayerVisuals instance = VisualsTemplate.Instantiate<PlayerVisuals>();
         
-        GD.Print($"Player {id} spawned at {spawnPosition}");
+        // B. Setup the copy
+        instance.Name = "Dynamic_Player1";
+        instance.Brain = brain; // <--- This connects the code to the visual!
+        
+        // C. Add it to the world
+        if (instance.CharacterSprite != null && skin != null)
+        {
+            instance.CharacterSprite.Texture = skin;
+        }
+        else if (skin == null)
+        {
+            GD.PrintErr("Warning: No skin texture assigned for " + name);
+        }
+
+        parent.AddChild(instance);
+        
+        GD.Print("Success: " + name + " created.");
+        
+
     }
 }

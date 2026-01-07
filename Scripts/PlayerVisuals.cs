@@ -4,8 +4,8 @@ using System;
 public partial class PlayerVisuals : Node2D
 {
 	[Export] public PlayerLogic Brain;
-	[Export] public Node2D CharacterSprite;
-	[Export] public Node2D ShadowSprite;
+	[Export] public Sprite2D CharacterSprite;
+	[Export] public Sprite2D ShadowSprite;
 
 	private float screenCenterX = 320;
 	private float courtBottomY = 332;
