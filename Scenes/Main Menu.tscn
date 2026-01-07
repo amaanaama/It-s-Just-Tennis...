@@ -1,8 +1,11 @@
-[gd_scene format=3 uid="uid://bo7sm04pknvqd"]
+[gd_scene load_steps=2 format=3 uid="uid://bo7sm04pknvqd"]
+
+[ext_resource type="Script" uid="uid://cm5n65t07qpb" path="res://Scripts/MainMenu.cs" id="1_totuj"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_totuj")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -40,3 +43,5 @@ text = "Online MP"
 [node name="Button4" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Story"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Button" to="." method="_on_local_mp_button_pressed"]
