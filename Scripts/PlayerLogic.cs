@@ -12,12 +12,14 @@ public partial class PlayerLogic : CharacterBody2D
     public float VerticalVelocity;
     public float JumpImpulse = 350.0f;
     public float Gravity = 1000f;
+    [Export] public int PlayerID = 1;
 
    public override void _PhysicsProcess(double delta){
+    string p = "p" + PlayerID + "_";
     Vector2 inputVelocity = Vector2.Zero;
     float floatDelta = (float)delta;
     
-    if (Input.IsActionPressed("jump") && isJumping == false){
+    if (Input.IsActionPressed(p + "jump") && isJumping == false){
         isJumping = true;
         VerticalVelocity = -JumpImpulse;
     }
@@ -35,10 +37,10 @@ public partial class PlayerLogic : CharacterBody2D
             }
     }
 
-    if (Input.IsActionPressed("right")) inputVelocity.X += 1;
-    if (Input.IsActionPressed("left"))  inputVelocity.X -= 1;
-    if (Input.IsActionPressed("down"))  inputVelocity.Y += 1;
-    if (Input.IsActionPressed("up"))    inputVelocity.Y -= 1;
+    if (Input.IsActionPressed(p +"right")) inputVelocity.X += 1;
+    if (Input.IsActionPressed(p +"left"))  inputVelocity.X -= 1;
+    if (Input.IsActionPressed(p +"down"))  inputVelocity.Y += 1;
+    if (Input.IsActionPressed(p + "up"))    inputVelocity.Y -= 1;
 
     if (inputVelocity.Length() > 0){
         inputVelocity = inputVelocity.Normalized();

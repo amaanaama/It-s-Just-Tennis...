@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ph5xslony63l"
-path="res://.godot/imported/test shadow 2.png-9dcbd18d6dac8ec939aa608e4a7cd338.ctex"
+uid="uid://dfkc6x8wopgri"
+path="res://.godot/imported/test srpite blue.png-00c575ee57300199f9ea1f0b9bdd8664.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://test shadow 2.png"
-dest_files=["res://.godot/imported/test shadow 2.png-9dcbd18d6dac8ec939aa608e4a7cd338.ctex"]
+source_file="res://Resources/Sprites/test srpite blue.png"
+dest_files=["res://.godot/imported/test srpite blue.png-00c575ee57300199f9ea1f0b9bdd8664.ctex"]
 
 [params]
 

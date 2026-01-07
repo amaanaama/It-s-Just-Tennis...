@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddn621scpdddo"
-path="res://.godot/imported/MOCK LAYOUT 1.png-dff81b2320364efd870ddd535f905b34.ctex"
+uid="uid://ctdk78dcttday"
+path="res://.godot/imported/icon.svg-112e72d8e552a29c74a351175c4b9e7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MOCK LAYOUT 1.png"
-dest_files=["res://.godot/imported/MOCK LAYOUT 1.png-dff81b2320364efd870ddd535f905b34.ctex"]
+source_file="res://Resources/Sprites/icon.svg"
+dest_files=["res://.godot/imported/icon.svg-112e72d8e552a29c74a351175c4b9e7f.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
