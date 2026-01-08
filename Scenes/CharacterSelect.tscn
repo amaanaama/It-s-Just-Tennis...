@@ -1,0 +1,92 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq3gla1jxbhlv"]
+
+[ext_resource type="Script" uid="uid://bip7dckvskdi0" path="res://Scenes/CharacterSelect.cs" id="1_r5nmx"]
+
+[node name="CharacterSelect" type="Control" node_paths=PackedStringArray("StatusLabel", "ConfirmButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r5nmx")
+StatusLabel = NodePath("Label2")
+ConfirmButton = NodePath("Button")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 256.0
+offset_top = 83.7
+offset_right = 383.0003
+offset_bottom = 106.7
+text = "Character Select"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 284.0
+offset_top = 225.12
+offset_right = 355.0
+offset_bottom = 256.12
+text = "Confirm"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 356.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Red" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Red"
+
+[node name="Blue" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Blue"
+
+[node name="Green" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Green"
+
+[node name="Dark Green" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Dark Green"
+
+[node name="Pink" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Pink	"
+
+[node name="Purple" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Purple"
+
+[node name="Black" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Black"
+
+[node name="Teal" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Teal"
+
+[node name="White" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "White"
+
+[node name="Orange" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Orange"
+
+[node name="Label2" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="pressed" from="Button" to="." method="_on_confirm_button_pressed"]

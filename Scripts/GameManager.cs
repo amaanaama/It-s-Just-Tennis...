@@ -1,19 +1,16 @@
 using Godot;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class GameManager : Node
 {
 	
-	public enum GameMode
-	{
-		Exhibition,
-		LocalMP,
-		OnlineMP,
-		Rougelike
-	}
-
+	public enum GameMode{Exhibition, LocalMP, OnlineMP, Rougelike}
 	[Export] public GameMode currentMode = GameMode.Exhibition;
+	public Texture2D P1SelectedTexture;
+	public Texture2D P2SelectedTexture;
 	public int CurrentRound = 1;
+	public bool IsP1Picking = true;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

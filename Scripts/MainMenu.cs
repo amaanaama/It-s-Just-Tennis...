@@ -15,9 +15,8 @@ public partial class MainMenu : Control
 
 	public void _on_local_mp_button_pressed()
 	{
-		GD.Print("SIGNAL RECEIVED: Button is working!");
 		var gameManager = GetNode<GameManager>("/root/GameManager");
 		gameManager.currentMode = GameManager.GameMode.LocalMP;
-		GetTree().ChangeSceneToFile("res://Scenes/Arena.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/CharacterSelect.tscn");
 	}
 }

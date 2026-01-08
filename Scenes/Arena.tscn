@@ -1,11 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5rnssjqy6xqd"]
+[gd_scene load_steps=7 format=3 uid="uid://c5rnssjqy6xqd"]
 
 [ext_resource type="Texture2D" uid="uid://ddn621scpdddo" path="res://Resources/Sprites/MOCK LAYOUT 1.png" id="1_dpcf1"]
 [ext_resource type="Script" uid="uid://cpyd1svi8igaa" path="res://Scripts/Arena.cs" id="1_jhdhk"]
 [ext_resource type="PackedScene" uid="uid://c4culx8aoiili" path="res://Scenes/PlayerVisuals.tscn" id="2_bugre"]
 [ext_resource type="Script" uid="uid://brsow3g3jbmy5" path="res://Scripts/PlayerLogic.cs" id="2_jhdhk"]
-[ext_resource type="Script" uid="uid://dby42erqqoa0b" path="res://Scripts/PlayerVisuals.cs" id="3_bugre"]
-[ext_resource type="Texture2D" uid="uid://ph5xslony63l" path="res://Resources/Sprites/test shadow 2.png" id="4_2tw1v"]
 [ext_resource type="Texture2D" uid="uid://bu5gcwh5sbo37" path="res://Resources/Sprites/test srpite.png" id="5_0ds76"]
 [ext_resource type="Texture2D" uid="uid://dfkc6x8wopgri" path="res://Resources/Sprites/test srpite blue.png" id="6_7dk6h"]
 
@@ -29,37 +27,20 @@ offset_bottom = 200.0
 color = Color(1, 1, 1, 0.16470589)
 
 [node name="PlayerLogic1" type="CharacterBody2D" parent="Logic World"]
+position = Vector2(150, 0)
 script = ExtResource("2_jhdhk")
 PlayerID = 2
 
 [node name="ColorRect" type="ColorRect" parent="Logic World/PlayerLogic1"]
-offset_left = 150.0
-offset_top = 9.0
-offset_right = 155.0
-offset_bottom = 14.0
+offset_right = 5.0
+offset_bottom = 5.0
 
 [node name="PlayerLogic2" type="CharacterBody2D" parent="Logic World"]
+position = Vector2(150, 150)
 script = ExtResource("2_jhdhk")
 
 [node name="ColorRect" type="ColorRect" parent="Logic World/PlayerLogic2"]
-offset_left = 151.0
-offset_top = 162.0
-offset_right = 156.0
-offset_bottom = 167.0
+offset_right = 5.0
+offset_bottom = 5.0
 
 [node name="Visual World" type="Node2D" parent="."]
-
-[node name="PlayerVisuals2" type="Node2D" parent="Visual World" node_paths=PackedStringArray("Brain", "CharacterSprite", "ShadowSprite")]
-visible = false
-script = ExtResource("3_bugre")
-Brain = NodePath("../../Logic World/PlayerLogic2")
-CharacterSprite = NodePath("CharacterSprite2")
-ShadowSprite = NodePath("ShadowSprite2")
-
-[node name="ShadowSprite2" type="Sprite2D" parent="Visual World/PlayerVisuals2"]
-modulate = Color(1, 1, 1, 0.45882353)
-texture = ExtResource("4_2tw1v")
-offset = Vector2(0, 16)
-
-[node name="CharacterSprite2" type="Sprite2D" parent="Visual World/PlayerVisuals2"]
-texture = ExtResource("6_7dk6h")

@@ -5,39 +5,38 @@ public partial class Arena : Node2D
 {
     // The blueprint slot
     [Export] public PackedScene VisualsTemplate;
-    [Export] public Texture2D P1Skin; 
-    [Export] public Texture2D P2Skin;
+    private Texture2D _P1Skin; 
+    private Texture2D _P2Skin;
 
     public override void _Ready()
     {
-        GD.Print("--- Spawner Started ---");
+
+        var gameManager = GetNode<GameManager>("/root/GameManager");
+        _P1Skin = gameManager.P1SelectedTexture;
+        _P2Skin = gameManager.P2SelectedTexture;
+
         var logicNodeP1 = GetNode<PlayerLogic>("Logic World/PlayerLogic1");
         var logicNodeP2 = GetNode<PlayerLogic>("Logic World/PlayerLogic2");
         
         var container = GetNode<Node2D>("Visual World");
 
-        SpawnCharacter(logicNodeP1, container, "Dynamic_Player1", P1Skin);
-        SpawnCharacter(logicNodeP2, container, "Dynamic_Player2", P2Skin);
+
+        SpawnCharacter(logicNodeP1, container, "Dynamic_Player1", _P1Skin);
+        if (gameManager.currentMode != GameManager.GameMode.Rougelike)
+        {
+            SpawnCharacter(logicNodeP2, container, "Dynamic_Player2", _P2Skin);
+        }
     }
 
     private void SpawnCharacter(PlayerLogic brain, Node parent, string name, Texture2D skin)
     {
-        // Safety Check
-        if (VisualsTemplate == null)
-        {
-            GD.PrintErr("CRITICAL ERROR: VisualsTemplate is empty! Drag your .tscn file into the Inspector.");
-            return;
-        }
 
-        // A. Create the copy
-        // We cast it to 'PlayerVisuals' so we can access the .Brain variable
         PlayerVisuals instance = VisualsTemplate.Instantiate<PlayerVisuals>();
         
-        // B. Setup the copy
-        instance.Name = "Dynamic_Player1";
-        instance.Brain = brain; // <--- This connects the code to the visual!
+
+        instance.Name = name;
+        instance.Brain = brain;
         
-        // C. Add it to the world
         if (instance.CharacterSprite != null && skin != null)
         {
             instance.CharacterSprite.Texture = skin;
