@@ -5,8 +5,8 @@ using System;
 public partial class PlayerLogic : CharacterBody2D
 {
     [Export]
-    public float Speed { get; set; } = 200.0f; 
-    public Vector2 FieldSize = new Vector2(300, 200);
+    public float Speed { get; set; } = 350.0f; 
+    public Vector2 FieldSize = new Vector2(700, 400);
     public float Altitude = 0.0f;
     public bool isJumping = false;
     public float VerticalVelocity;
@@ -59,9 +59,28 @@ public partial class PlayerLogic : CharacterBody2D
 
     MoveAndSlide();
 
+    // 2. Define our boundaries
     Vector2 pos = GlobalPosition;
+    
+    // X-Axis: Full width of the field (Widened)
     pos.X = Mathf.Clamp(pos.X, 0, FieldSize.X);
-    pos.Y = Mathf.Clamp(pos.Y, 0, FieldSize.Y);
+
+    // Y-Axis: Halfway Line Logic
+    float halfPoint = FieldSize.Y / 2;
+    float netBuffer = 2.0f; // Small gap so they don't touch the net perfectly
+
+    if (PlayerID == 1)
+    {
+        // Player 1 (Bottom side): Can move from the middle to the bottom edge
+        pos.Y = Mathf.Clamp(pos.Y, halfPoint + netBuffer, FieldSize.Y);
+    }
+    else
+    {
+        // Player 2 (Top side): Can move from the top edge to the middle
+        pos.Y = Mathf.Clamp(pos.Y, 0, halfPoint - netBuffer);
+    }
+
     GlobalPosition = pos;
 }
+
 }

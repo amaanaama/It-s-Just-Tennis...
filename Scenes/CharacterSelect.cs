@@ -6,15 +6,31 @@ public partial class CharacterSelect : Control
 {
     private GameManager _gameManager;
     [Export] public Label StatusLabel;    
+
+
+    private void MapButtonToFrames(string buttonName, string resourcePath)
+{
+    var btn = GetNodeOrNull<Button>($"CenterContainer/HBoxContainer/{buttonName}"); 
+    if (btn != null)
+    {
+        btn.Pressed += () => {
+            // Load the resource
+            var frames = GD.Load<SpriteFrames>(resourcePath);
+            
+            // Call the handler instead of trying to set a single variable
+            HandleSelection(frames);
+        };
+    }
+}
     public override void _Ready()
     {
         _gameManager = GetNode<GameManager>("/root/GameManager");
-        _gameManager.P1SelectedTexture = null;
-        _gameManager.P2SelectedTexture = null;
+        _gameManager.P1SpriteFrames = null;
+        _gameManager.P2SpriteFrames = null;
         _gameManager.IsP1Picking = true;
 
         MapButtonToSprite("Red", "res://Resources/Sprites/different colors for sprites/orange.png");
-		MapButtonToSprite("Blue", "res://Resources/Sprites/different colors for sprites/blue.png");
+		MapButtonToFrames("Blue", "res://Resources/Sprites/different colors for sprites/BlueSprite.tres");
         MapButtonToSprite("Green", "res://Resources/Sprites/different colors for sprites/lgreen.png");
 		MapButtonToSprite("Dark Green", "res://Resources/Sprites/different colors for sprites/green.png");       
         MapButtonToSprite("Pink", "res://Resources/Sprites/different colors for sprites/pink.png");
@@ -31,29 +47,35 @@ public partial class CharacterSelect : Control
     {
 
         var btn = GetNode<Button>($"CenterContainer/HBoxContainer/{buttonName}"); 
-        btn.Pressed += () => HandleSelection(GD.Load<Texture2D>(texturePath));
+        btn.Pressed += () => HandleSelection(GD.Load<SpriteFrames>(texturePath));
 	}
     
-    private void HandleSelection(Texture2D selectedTex){
-    if (_gameManager.IsP1Picking){
-        _gameManager.P1SelectedTexture = selectedTex;
+    private void HandleSelection(SpriteFrames selectedFrames)
+{
+    if (_gameManager.IsP1Picking)
+    {
+        // Use P1SpriteFrames here!
+        _gameManager.P1SpriteFrames = selectedFrames;
         GD.Print("P1 Picked!");
 
-        if (_gameManager.currentMode == GameManager.GameMode.LocalMP){
+        if (_gameManager.currentMode == GameManager.GameMode.LocalMP)
+        {
             _gameManager.IsP1Picking = false;
             UpdateUI();
         }
-        else{
+        else
+        {
             StartGame();
         }
     }
     else
     {
-        _gameManager.P2SelectedTexture = selectedTex;
+        // Use P2SpriteFrames here!
+        _gameManager.P2SpriteFrames = selectedFrames;
         GD.Print("P2 Picked!");
         StartGame();
     }
-	}
+}
 
     private void UpdateUI(){
         if (_gameManager.IsP1Picking){
