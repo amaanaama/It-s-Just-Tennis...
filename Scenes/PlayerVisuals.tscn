@@ -9,8 +9,9 @@ AnimSprite = NodePath("AnimSprite")
 ShadowSprite = NodePath("ShadowSprite")
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.45882353)
+modulate = Color(1, 1, 1, 0.8509804)
+position = Vector2(-3, -1)
 texture = ExtResource("2_wy1vp")
-offset = Vector2(0, 16)
+offset = Vector2(0, 14)
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
