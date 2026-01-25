@@ -4,11 +4,10 @@ using System;
 
 public partial class PlayerLogic : CharacterBody2D
 {
-    [Export]
-    public float Speed { get; set; } = 350.0f; 
-    public Vector2 FieldSize = new Vector2(700, 400);
+    [Export] public float HorizontalSpeed = 475.0f; // Increased for the wider court
+    [Export] public float VerticalSpeed = 400.0f;   // Decreased to feel more weighted
+    public Vector2 FieldSize = new Vector2(1000, 500);
     public float Altitude = 0.0f;
-    public bool isJumping = false;
     public float VerticalVelocity;
     public float JumpImpulse = 350.0f;
     public float Gravity = 1000f;
@@ -19,24 +18,7 @@ public partial class PlayerLogic : CharacterBody2D
     Vector2 inputVelocity = Vector2.Zero;
     float floatDelta = (float)delta;
     
-    if (Input.IsActionPressed(p + "jump") && isJumping == false){
-        isJumping = true;
-        VerticalVelocity = -JumpImpulse;
-    }
-
-    if (isJumping)
-    {
-        VerticalVelocity += Gravity *floatDelta;
-        Altitude -= VerticalVelocity *floatDelta;
-
-        if (Altitude <= 0)
-            {
-                Altitude = 0;
-                isJumping = false;
-                VerticalVelocity = 0;
-            }
-    }
-
+    
     if (Input.IsActionPressed(p +"right")) inputVelocity.X += 1;
     if (Input.IsActionPressed(p +"left"))  inputVelocity.X -= 1;
     if (Input.IsActionPressed(p +"down"))  inputVelocity.Y += 1;
@@ -45,12 +27,15 @@ public partial class PlayerLogic : CharacterBody2D
     if (inputVelocity.Length() > 0){
         inputVelocity = inputVelocity.Normalized();
     }
-    Velocity = inputVelocity * Speed;
+    Velocity = new Vector2(
+        inputVelocity.X * HorizontalSpeed,
+        inputVelocity.Y * VerticalSpeed
+    );
 
     if (inputVelocity != Vector2.Zero)
     {
         GD.Print("Input detected! Direction: ", inputVelocity);
-        Velocity = inputVelocity.Normalized() * Speed;
+        //Velocity = inputVelocity.Normalized() * Speed;
     }
     else
     {

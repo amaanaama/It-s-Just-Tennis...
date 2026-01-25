@@ -8,8 +8,8 @@ public partial class PlayerVisuals : Node2D
 	[Export] public Sprite2D ShadowSprite;
 
 	private float screenCenterX = 320;
-	private float courtBottomY = 332;
-	private float courtTopY = 52;
+	private float courtBottomY = 342;
+	private float courtTopY = 30;
 	private float narrowScale = 350f / 514f;
 
 	// Called when the node enters the scene tree for the first time.
@@ -29,7 +29,7 @@ public partial class PlayerVisuals : Node2D
 		float currentSqueeze = Mathf.Lerp(narrowScale, 1.0f, depthMultiplier);
 
 		float logicXCentered = Brain.GlobalPosition.X - (Brain.FieldSize.X / 2);
-		float xPixelScale = 514f/ Brain.FieldSize.X;
+		float xPixelScale = 600f/ Brain.FieldSize.X;
 
 		float screenX = screenCenterX + (logicXCentered * xPixelScale * currentSqueeze);
 
@@ -67,20 +67,36 @@ public partial class PlayerVisuals : Node2D
     {
         if (vx < 0)
         {
-            if (currentAnim != "run_left") AnimSprite.Play("run_left");
+            if (Brain.PlayerID == 2){
+                if (currentAnim != "p2run_left") AnimSprite.Play("p2run_left");
+            }
+            else{
+                if (currentAnim != "p1run_left") AnimSprite.Play("p1run_left");
+            }
         }
         else
         {
             // If moving right OR moving purely up/down, use run_right
-            if (currentAnim != "run_right") AnimSprite.Play("run_right");
+            if (Brain.PlayerID == 2){
+                if (currentAnim != "p2run_right") AnimSprite.Play("p2run_right");
+            }
+            else{
+                if (currentAnim != "p1run_right") AnimSprite.Play("p1run_right");
+            }
         }
     }
     else
     {
         // 3. STANDING STILL
-        if (currentAnim != "idle")
+
+        if (currentAnim != "p1idle" || currentAnim != "p2idle")
         {
-            AnimSprite.Play("idle");
+            if (Brain.PlayerID == 2){
+                AnimSprite.Play("p2idle");
+            }
+            else{
+                AnimSprite.Play("p1idle");
+            }
         }
     }
 }
