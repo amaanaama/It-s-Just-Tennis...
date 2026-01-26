@@ -12,7 +12,6 @@ public partial class AIController : Node2D
     public override void _Ready()
     {
         _logic = GetParent<PlayerLogic>();
-        // Using group to find the ball initially
         _ball = GetTree().GetFirstNodeInGroup("ball_logic") as BallLogic;
         
         if (_logic != null)
@@ -25,33 +24,29 @@ public partial class AIController : Node2D
     {
         if (_logic == null) return;
 
-        // 1. SAFETY CHECK: If ball is missing or was deleted (Disposed)
-        // This prevents the "Cannot access a disposed object" error
+        // 1. SAFETY CHECK
         if (!IsInstanceValid(_ball))
         {
             _ball = GetTree().GetFirstNodeInGroup("ball_logic") as BallLogic;
-            if (!IsInstanceValid(_ball)) return; // Stop if still no ball
+            if (!IsInstanceValid(_ball)) return;
         }
 
         // 2. POSITION SYNC
-        // Keep the AIController node on top of the Logic node so drawing works
         GlobalPosition = _logic.GlobalPosition;
 
         // 3. TARGET CALCULATION
         if (_ball.Velocity.Y < -10)
         {
-            // Calculate prediction
+            // Predict where the ball will be when it reaches AI's Y-line (100)
             float distanceY = Mathf.Abs(_ball.GlobalPosition.Y - 100.0f);
             float timeToReach = distanceY / Mathf.Abs(_ball.Velocity.Y);
             _targetX = _ball.GlobalPosition.X + (_ball.Velocity.X * timeToReach);
         }
         else
         {
-            // Track current position if stationary or moving away
             _targetX = _ball.GlobalPosition.X;
         }
 
-        // Clamp within field boundaries
         _targetX = Mathf.Clamp(_targetX, 50, _logic.FieldSize.X - 50);
 
         // 4. MOVEMENT
@@ -64,11 +59,21 @@ public partial class AIController : Node2D
 
         _logic.Velocity = new Vector2(moveDir.X * _logic.HorizontalSpeed, moveDir.Y * _logic.VerticalSpeed);
 
-        // 5. AUTO-SWING (Strike Zone)
-        float distToBall = _logic.GlobalPosition.DistanceTo(_ball.GlobalPosition);
-        if (distToBall < 85 && !_logic.IsCharging && _ball.GlobalPosition.Y < 400)
+        // 5. AUTO-SWING (Synchronized with PlayerLogic Reach)
+        float hitDiffX = Mathf.Abs(_ball.GlobalPosition.X - _logic.GlobalPosition.X);
+        float hitDiffY = Mathf.Abs(_ball.GlobalPosition.Y - _logic.GlobalPosition.Y);
+
+        // NEW: Strict height check. AI only swings if ball is below MaxHitHeight
+        bool isBallHittable = _ball.Altitude <= _logic.MaxHitHeight;
+        bool isWithinReach = hitDiffX < _logic.ReachX && hitDiffY < _logic.ReachY;
+
+        if (isWithinReach && isBallHittable && !_logic.IsCharging)
         {
-            TriggerSwing();
+            // Extra safety: only swing if ball is on AI side of court
+            if (_ball.GlobalPosition.Y < 300)
+            {
+                TriggerSwing();
+            }
         }
 
         if (ShowDebug) QueueRedraw();
@@ -76,18 +81,13 @@ public partial class AIController : Node2D
 
     public override void _Draw()
     {
-        // Safety check for drawing
         if (!ShowDebug || _logic == null || !IsInstanceValid(_ball)) return;
 
-        // Convert global positions to local space so lines start at AI center
         Vector2 localTarget = ToLocal(new Vector2(_targetX, 100.0f));
         Vector2 localBall = ToLocal(_ball.GlobalPosition);
 
-        // Yellow line to predicted target
         DrawLine(Vector2.Zero, localTarget, new Color(1, 1, 0, 0.5f), 2.0f);
-        // Red circle at target point
         DrawCircle(localTarget, 8.0f, new Color(1, 0, 0, 0.8f));
-        // Blue line tracking the actual ball
         DrawLine(Vector2.Zero, localBall, new Color(0, 0.5f, 1, 0.3f), 1.0f);
     }
 
@@ -98,9 +98,9 @@ public partial class AIController : Node2D
         _logic.IsCharging = true;
         _logic.EmitSignal(PlayerLogic.SignalName.OnSwing, "forehand_charge");
         
+        // Wait a tiny bit (simulates human reaction/wind-up)
         await ToSignal(GetTree().CreateTimer(0.08f), "timeout");
 
-        // Final check before releasing swing
         if (IsInstanceValid(_logic))
         {
             _logic.IsCharging = false;

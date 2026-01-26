@@ -6,8 +6,8 @@ public partial class BallLogic : Node2D
     // --- Physics Constants ---
     [Export] public float Gravity = 1500.0f;        // Increased to fall faster
     [Export] public float BounceElasticity = 0.75f; // Good bounce height
-    [Export] public float AirDrag = 0.995f;         
-    [Export] public float MaxSpeed = 900.0f;        
+    [Export] public float AirDrag = 0.98f;         
+    [Export] public float MaxSpeed = 800.0f;        
     [Export] public Vector2 FieldSize = new Vector2(1000, 500);
 
     // --- State Variables ---

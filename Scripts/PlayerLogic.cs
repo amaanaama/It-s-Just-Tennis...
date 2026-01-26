@@ -94,44 +94,50 @@ public partial class PlayerLogic : CharacterBody2D
     }
 
     public void PerformSwing()
-    {
-        _swingCooldown = 0.4f;
-        var ball = GetTree().GetFirstNodeInGroup("ball_logic") as BallLogic;
-        if (ball == null) return;
-
-        float diffX = ball.GlobalPosition.X - GlobalPosition.X;
-        float diffY = ball.GlobalPosition.Y - GlobalPosition.Y;
-
-        bool isCloseEnough = Mathf.Abs(diffX) < 70 && Mathf.Abs(diffY) < 40;
-        bool isHeightRight = ball.Altitude >= 0.0f && ball.Altitude < MaxHitHeight;
-
-        if (isCloseEnough && isHeightRight)
-        {
-            ExecuteHit(ball, diffX);
-        }
-    }
-
-    private void ExecuteHit(BallLogic ball, float diffX)
 {
-    ball.ForceUnfreeze();
-    ball.TriggerImpact(0.08f); 
-    ball.IsPhysicsActive = true;
+    _swingCooldown = 0.4f;
+    var ball = GetTree().GetFirstNodeInGroup("ball_logic") as BallLogic;
+    if (ball == null) return;
+
+    float diffX = ball.GlobalPosition.X - GlobalPosition.X;
+    float diffY = ball.GlobalPosition.Y - GlobalPosition.Y;
+
+    // Use the exact variables we exported
+    bool isCloseEnough = Mathf.Abs(diffX) < ReachX && Mathf.Abs(diffY) < ReachY;
     
-    // Start slightly higher to ensure it clears the net with a flat arc
+    // REDUCE THIS: If MaxHitHeight is 100, maybe the "Sweet Spot" is 20-80
+    // If the ball is at 150 altitude, this will return false
+    bool isHeightRight = ball.Altitude >= 0.0f && ball.Altitude <= MaxHitHeight;
+
+    if (isCloseEnough && isHeightRight)
+    {
+        ExecuteHit(ball, diffX);
+    }
+    else
+    {
+        GD.Print("Swing Missed! Altitude was: " + ball.Altitude);
+    }
+}
+
+   private void ExecuteHit(BallLogic ball, float diffX)
+{
+    ball.ForceUnfreeze(); 
+    //ball.TriggerImpact(0.08f); 
+    ball.IsPhysicsActive = true;
     ball.Altitude = 55.0f; 
 
     float yDir = (PlayerID == 1) ? -1.0f : 1.0f;
 
-    float horizontalPower = Mathf.Clamp(diffX * -4.0f, -200f, 200f);
+    // 1. CONTROLLED HORIZONTAL: Based strictly on where you hit the ball
+    float horizontalPower = Mathf.Clamp(diffX * -5.0f, -300f, 300f);
     
-    // 1. Slowed down for reaction (from 850 to 450)
-    float forwardPower = 850.0f * yDir; 
+    // 2. STABLE FORWARD POWER: 
+    // We set a fixed base speed (750) so it doesn't accelerate forever.
+    float baseForwardSpeed = 750.0f; 
+    float forwardPower = baseForwardSpeed * yDir; 
 
-    // 2. Very flat "Pop" (from -300 to -100)
-    // This keeps the ball moving "straight" instead of "up and over"
-    float upwardPop = -100.0f; 
-
+    // 3. APPLY VELOCITY (Override the old velocity entirely)
     ball.Velocity = new Vector2(horizontalPower, forwardPower);
-    ball.VerticalVelocity = upwardPop;
+    ball.VerticalVelocity = -120.0f; // Constant upward pop
 }
 }
