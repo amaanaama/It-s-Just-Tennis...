@@ -45,3 +45,4 @@ layout_mode = 2
 text = "Story"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Button" to="." method="_on_local_mp_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Button2" to="." method="_on_exhibition_button_pressed"]

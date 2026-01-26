@@ -20,53 +20,65 @@ public partial class PlayerLogic : CharacterBody2D
     private float _swingCooldown = 0.0f;
 
     public override void _PhysicsProcess(double delta)
+{
+    string p = "p" + PlayerID + "_";
+    float floatDelta = (float)delta;
+
+    // 1. Always update cooldown
+    if (_swingCooldown > 0) _swingCooldown -= floatDelta;
+
+    // 2. AI CONTROL PATH
+    if (HasNode("AIController"))
     {
-        string p = "p" + PlayerID + "_";
-        float floatDelta = (float)delta;
-
-        if (_swingCooldown > 0) _swingCooldown -= floatDelta;
-
-        if (IsCharging || _swingCooldown > 0.1f)
-        {
-            Velocity = Velocity.Lerp(Vector2.Zero, SlideFriction);
-            MoveAndSlide();
-
-            if (Input.IsActionJustReleased(p + "forehand") && IsCharging)
-            {
-                IsCharging = false;
-                // --- FIX: Tell visuals to swing ---
-                EmitSignal(SignalName.OnSwing, "forehand_swing");
-                PerformSwing();
-            }
-            return; 
-        }
-
-        Vector2 inputDir = Vector2.Zero;
-        if (Input.IsActionPressed(p + "right")) inputDir.X += 1;
-        if (Input.IsActionPressed(p + "left"))  inputDir.X -= 1;
-        if (Input.IsActionPressed(p + "down"))  inputDir.Y += 1;
-        if (Input.IsActionPressed(p + "up"))    inputDir.Y -= 1;
-
-        if (inputDir != Vector2.Zero)
-        {
-            inputDir = inputDir.Normalized();
-            Velocity = new Vector2(inputDir.X * HorizontalSpeed, inputDir.Y * VerticalSpeed);
-        }
-        else
-        {
-            Velocity = Vector2.Zero;
-        }
-
-        if (Input.IsActionPressed(p + "forehand") && _swingCooldown <= 0)
-        {
-            IsCharging = true;
-            EmitSignal(SignalName.OnSwing, "forehand_charge");
-            return;
-        }
-
         MoveAndSlide();
         ApplyBoundaries();
+        return; // EXIT HERE so keyboard code never runs for AI
     }
+    
+    // 3. PLAYER CONTROL PATH (Put the rest of your logic here)
+    if (IsCharging || _swingCooldown > 0.1f)
+    {
+        Velocity = Velocity.Lerp(Vector2.Zero, SlideFriction);
+        MoveAndSlide();
+
+        if (Input.IsActionJustReleased(p + "forehand") && IsCharging)
+        {
+            IsCharging = false;
+            EmitSignal(SignalName.OnSwing, "forehand_swing");
+            PerformSwing();
+        }
+        ApplyBoundaries(); // Added this to keep charging players in bounds
+        return; 
+    }
+
+    // Movement Input
+    Vector2 inputDir = Vector2.Zero;
+    if (Input.IsActionPressed(p + "right")) inputDir.X += 1;
+    if (Input.IsActionPressed(p + "left"))  inputDir.X -= 1;
+    if (Input.IsActionPressed(p + "down"))  inputDir.Y += 1;
+    if (Input.IsActionPressed(p + "up"))    inputDir.Y -= 1;
+
+    if (inputDir != Vector2.Zero)
+    {
+        inputDir = inputDir.Normalized();
+        Velocity = new Vector2(inputDir.X * HorizontalSpeed, inputDir.Y * VerticalSpeed);
+    }
+    else
+    {
+        Velocity = Vector2.Zero;
+    }
+
+    // Start Charging
+    if (Input.IsActionPressed(p + "forehand") && _swingCooldown <= 0)
+    {
+        IsCharging = true;
+        EmitSignal(SignalName.OnSwing, "forehand_charge");
+        return;
+    }
+
+    MoveAndSlide();
+    ApplyBoundaries();
+}
 
     private void ApplyBoundaries()
     {
@@ -81,7 +93,7 @@ public partial class PlayerLogic : CharacterBody2D
         GlobalPosition = pos;
     }
 
-    private void PerformSwing()
+    public void PerformSwing()
     {
         _swingCooldown = 0.4f;
         var ball = GetTree().GetFirstNodeInGroup("ball_logic") as BallLogic;
@@ -101,6 +113,7 @@ public partial class PlayerLogic : CharacterBody2D
 
     private void ExecuteHit(BallLogic ball, float diffX)
 {
+    ball.ForceUnfreeze();
     ball.TriggerImpact(0.08f); 
     ball.IsPhysicsActive = true;
     

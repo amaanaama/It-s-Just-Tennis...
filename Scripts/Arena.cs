@@ -19,12 +19,20 @@ public partial class Arena : Node2D
         var gameManager = GetNode<GameManager>("/root/GameManager");
         _camera = GetNode<Camera2D>("Camera2D");
         
-        _P1Frames = gameManager.P1SpriteFrames;
-        _P2Frames = gameManager.P2SpriteFrames;
+        
 
         var logicNodeP1 = GetNode<PlayerLogic>("Logic World/PlayerLogic1");
         var logicNodeP2 = GetNode<PlayerLogic>("Logic World/PlayerLogic2");
         var container = GetNode<Node2D>("Visual World");
+        _P1Frames = gameManager.P1SpriteFrames;
+        if (logicNodeP2.HasNode("AIController"))
+    {
+        _P2Frames = gameManager.P1SpriteFrames; // Mirror P1
+    }
+    else
+    {
+        _P2Frames = gameManager.P2SpriteFrames; // Use standard P2 selection
+    }
 
         // Spawn P1
         SpawnCharacter(logicNodeP1, container, "Dynamic_Player1", _P1Frames);

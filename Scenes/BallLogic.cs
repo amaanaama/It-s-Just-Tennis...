@@ -75,17 +75,17 @@ public partial class BallLogic : Node2D
     /// Freezes the ball's movement entirely for a set duration.
     /// Can be called by PlayerLogic during a racket hit.
     /// </summary>
-    public void TriggerImpact(float duration)
-    {
-        if (_isFrozen) return; // Prevent overlapping freezes
+    public async void TriggerImpact(float duration)
+{
+    if (_isFrozen) return; 
 
-        _isFrozen = true;
-
-        // Use a real-time timer so it doesn't matter if the game is paused or slowed
-        GetTree().CreateTimer(duration, true).Connect("timeout", Callable.From(() => {
-            _isFrozen = false;
-        }));
-    }
+    _isFrozen = true;
+    
+    // We use await to wait for the timer to finish naturally
+    await ToSignal(GetTree().CreateTimer(duration), "timeout");
+    
+    _isFrozen = false;
+}
 
     private void ApplyBoundaries()
     {
@@ -101,4 +101,8 @@ public partial class BallLogic : Node2D
             GlobalPosition = new Vector2(GlobalPosition.X, Mathf.Clamp(GlobalPosition.Y, 0, FieldSize.Y));
         }
     }
+	public void ForceUnfreeze()
+{
+    _isFrozen = false;
+}
 }

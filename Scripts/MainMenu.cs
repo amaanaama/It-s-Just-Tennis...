@@ -19,4 +19,11 @@ public partial class MainMenu : Control
 		gameManager.currentMode = GameManager.GameMode.LocalMP;
 		GetTree().ChangeSceneToFile("res://Scenes/CharacterSelect.tscn");
 	}
+
+	public void _on_exhibition_button_pressed()
+	{
+		var gameManager = GetNode<GameManager>("/root/GameManager");
+		gameManager.currentMode = GameManager.GameMode.Exhibition;
+		GetTree().ChangeSceneToFile("res://Scenes/CharacterSelect.tscn");
+	}
 }
