@@ -4,7 +4,7 @@ using System;
 
 public partial class PlayerLogic : CharacterBody2D
 {
-    [Export] public float HorizontalSpeed = 475.0f; // Increased for the wider court
+    [Export] public float HorizontalSpeed = 525.0f; // Increased for the wider court
     [Export] public float VerticalSpeed = 400.0f;   // Decreased to feel more weighted
     public Vector2 FieldSize = new Vector2(1000, 500);
     public float Altitude = 0.0f;
@@ -51,19 +51,19 @@ public partial class PlayerLogic : CharacterBody2D
     pos.X = Mathf.Clamp(pos.X, 0, FieldSize.X);
 
     // Y-Axis: Halfway Line Logic
-    float halfPoint = FieldSize.Y / 2;
-    float netBuffer = 2.0f; // Small gap so they don't touch the net perfectly
+    float netPosition = 195.0f; 
+    float netBuffer = 25.0f;
 
-    if (PlayerID == 1)
-    {
-        // Player 1 (Bottom side): Can move from the middle to the bottom edge
-        pos.Y = Mathf.Clamp(pos.Y, halfPoint + netBuffer, FieldSize.Y);
-    }
-    else
-    {
-        // Player 2 (Top side): Can move from the top edge to the middle
-        pos.Y = Mathf.Clamp(pos.Y, 0, halfPoint - netBuffer);
-    }
+if (PlayerID == 1)
+{
+    // Player 1 (Bottom): Can move from the Net down to the bottom (400)
+    pos.Y = Mathf.Clamp(pos.Y, netPosition + netBuffer + 10, FieldSize.Y);
+}
+else
+{
+    // Player 2 (Top): Can move from the Top (0) down to the Net
+    pos.Y = Mathf.Clamp(pos.Y, 0, netPosition - netBuffer);
+}
 
     GlobalPosition = pos;
 }
