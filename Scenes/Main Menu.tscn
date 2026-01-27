@@ -1,46 +1,46 @@
-[gd_scene load_steps=2 format=3 uid="uid://bo7sm04pknvqd"]
+[gd_scene format=3 uid="uid://bo7sm04pknvqd"]
 
 [ext_resource type="Script" uid="uid://cm5n65t07qpb" path="res://Scripts/MainMenu.cs" id="1_totuj"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=665359933]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_totuj")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1502751234]
 layout_mode = 0
 offset_right = 640.0
 offset_bottom = 360.0
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1907252820]
 layout_mode = 0
 offset_right = 640.0
 offset_bottom = 356.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1249844030]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1479563453]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 text = "Its Just Tennis"
 
-[node name="Control" type="Control" parent="CenterContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer" unique_id=772279821]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1639798841]
 layout_mode = 2
 text = "Local MP"
 
-[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer" unique_id=134625232]
 layout_mode = 2
 text = "Exhibition"
 
-[node name="Button3" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Button3" type="Button" parent="CenterContainer/VBoxContainer" unique_id=499059377]
 layout_mode = 2
 text = "Online MP"
 
-[node name="Button4" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Button4" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1207527049]
 layout_mode = 2
 text = "Story"
 

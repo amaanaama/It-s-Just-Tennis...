@@ -1,17 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://c4culx8aoiili"]
+[gd_scene format=3 uid="uid://c4culx8aoiili"]
 
 [ext_resource type="Script" uid="uid://dby42erqqoa0b" path="res://Scripts/PlayerVisuals.cs" id="1_bs3c5"]
 [ext_resource type="Texture2D" uid="uid://ph5xslony63l" path="res://Resources/Sprites/test shadow 2.png" id="2_wy1vp"]
 
-[node name="PlayerVisuals1" type="Node2D" node_paths=PackedStringArray("AnimSprite", "ShadowSprite")]
+[node name="PlayerVisuals1" type="Node2D" unique_id=539519790 node_paths=PackedStringArray("AnimSprite", "ShadowSprite")]
 script = ExtResource("1_bs3c5")
 AnimSprite = NodePath("AnimSprite")
 ShadowSprite = NodePath("ShadowSprite")
 
-[node name="ShadowSprite" type="Sprite2D" parent="."]
+[node name="ShadowSprite" type="Sprite2D" parent="." unique_id=1295941068]
 modulate = Color(1, 1, 1, 0.8509804)
 position = Vector2(-3, -1)
 texture = ExtResource("2_wy1vp")
 offset = Vector2(3, 14)
 
-[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
+[node name="AnimSprite" type="AnimatedSprite2D" parent="." unique_id=1241004302]

@@ -1,55 +1,55 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5rnssjqy6xqd"]
+[gd_scene format=3 uid="uid://c5rnssjqy6xqd"]
 
 [ext_resource type="Texture2D" uid="uid://ddn621scpdddo" path="res://Resources/Sprites/MOCK LAYOUT 1.png" id="1_dpcf1"]
 [ext_resource type="Script" uid="uid://cpyd1svi8igaa" path="res://Scripts/Arena.cs" id="1_jhdhk"]
 [ext_resource type="PackedScene" uid="uid://c4culx8aoiili" path="res://Scenes/PlayerVisuals.tscn" id="2_bugre"]
 [ext_resource type="Script" uid="uid://brsow3g3jbmy5" path="res://Scripts/PlayerLogic.cs" id="2_jhdhk"]
 [ext_resource type="PackedScene" uid="uid://dvks726qh2iqe" path="res://Scenes/BallVisuals.tscn" id="3_dpcf1"]
-[ext_resource type="Script" uid="uid://c8e6rqxh5pi3o" path="res://Scenes/BallLogic.cs" id="5_bugre"]
+[ext_resource type="Script" uid="uid://c8e6rqxh5pi3o" path="res://Scripts/BallLogic.cs" id="5_bugre"]
 [ext_resource type="Script" uid="uid://cv70vldn3sx52" path="res://Scripts/AIController.cs" id="6_jhdhk"]
 
-[node name="Arena" type="Node2D"]
+[node name="Arena" type="Node2D" unique_id=479494019]
 position = Vector2(0, 1)
 script = ExtResource("1_jhdhk")
 VisualsTemplate = ExtResource("2_bugre")
 BallVisualsTemplate = ExtResource("3_dpcf1")
 
-[node name="Court Background" type="Sprite2D" parent="."]
+[node name="Court Background" type="Sprite2D" parent="." unique_id=1882885444]
 texture = ExtResource("1_dpcf1")
 centered = false
 
-[node name="Logic World" type="Node2D" parent="."]
+[node name="Logic World" type="Node2D" parent="." unique_id=1469593387]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="Logic World"]
+[node name="ColorRect" type="ColorRect" parent="Logic World" unique_id=1646053986]
 offset_right = 300.0
 offset_bottom = 200.0
 color = Color(1, 1, 1, 0.16470589)
 
-[node name="PlayerLogic2" type="CharacterBody2D" parent="Logic World"]
+[node name="PlayerLogic2" type="CharacterBody2D" parent="Logic World" unique_id=1802276724]
 position = Vector2(150, 0)
 script = ExtResource("2_jhdhk")
 PlayerID = 2
 
-[node name="ColorRect" type="ColorRect" parent="Logic World/PlayerLogic2"]
+[node name="ColorRect" type="ColorRect" parent="Logic World/PlayerLogic2" unique_id=1185722685]
 offset_right = 5.0
 offset_bottom = 5.0
 
-[node name="AIController" type="Node2D" parent="Logic World/PlayerLogic2"]
+[node name="AIController" type="Node2D" parent="Logic World/PlayerLogic2" unique_id=784004538]
 script = ExtResource("6_jhdhk")
 
-[node name="PlayerLogic1" type="CharacterBody2D" parent="Logic World"]
+[node name="PlayerLogic1" type="CharacterBody2D" parent="Logic World" unique_id=154534937]
 position = Vector2(150, 150)
 script = ExtResource("2_jhdhk")
 
-[node name="ColorRect" type="ColorRect" parent="Logic World/PlayerLogic1"]
+[node name="ColorRect" type="ColorRect" parent="Logic World/PlayerLogic1" unique_id=770131584]
 offset_right = 5.0
 offset_bottom = 5.0
 
-[node name="BallLogic" type="Node2D" parent="Logic World" groups=["ball_logic"]]
+[node name="BallLogic" type="Node2D" parent="Logic World" unique_id=855515640 groups=["ball_logic"]]
 script = ExtResource("5_bugre")
 
-[node name="Visual World" type="Node2D" parent="."]
+[node name="Visual World" type="Node2D" parent="." unique_id=441129277]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=698432455]
 position_smoothing_enabled = true
